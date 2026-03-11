@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Noshin ❤️</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+<style>
+    /* Global Styles */
+    :root {
+        --bg-gradient: linear-gradient(135deg, #ff9a9e, #fecfef);
+        --text-color: #2d3436;
+        --glass-bg: rgba(255, 255, 255, 0.45);
+        --glass-border: rgba(255, 255, 255, 0.6);
+        --primary-color: #ff4b6e;
+    }
+
+    body.dark {
+        --bg-gradient: linear-gradient(135deg, #1e1b2e, #4a4063);
+        --text-color: #fdfdfd;
+        --glass-bg: rgba(0, 0, 0, 0.35);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --primary-color: #ff8fa3;
+    }
+
+    body {
+        margin: 0;
+        font-family: 'Montserrat', sans-serif;
+        background: var(--bg-gradient);
+        color: var(--text-color);
+        text-align: center;
+        transition: background 0.6s ease, color 0.6s ease;
+        overflow-x: hidden;
+        min-height: 100vh;
+    }
+
+    h1, h2, h3 { 
+        font-family: 'Playfair Display', serif; 
+        font-weight: 600; 
+        margin-bottom: 12px; 
+    }
+    
+    p { font-weight: 400; line-height: 1.7; font-size: 15px; }
+
+    /* Layout & Containers */
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 40px 20px 140px; 
+    }
+
+    .glass-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid var(--glass-border);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        border-radius: 24px;
+        padding: 35px;
+    }
+
+    /* Photos */
+    .memory-photo {
+        width: 100%;
+        max-width: 280px;
+        border-radius: 18px;
+        margin: 20px auto;
+        display: block;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        border: 3px solid var(--glass-border);
+        transition: transform 0.3s ease;
+    }
+    .memory-photo:hover {
+        transform: scale(1.03);
+    }
+
+    /* Buttons */
+    button {
+        padding: 14px 28px;
+        border: none;
+        border-radius: 40px;
+        background: white;
+        color: var(--primary-color);
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        font-size: 16px;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        margin: 10px;
+    }
+
+    body.dark button { background: #2d3436; color: var(--primary-color); }
+    button:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+
+    /* Quiz Specific Buttons */
+    .quiz-btn {
+        display: block;
+        width: 90%;
+        max-width: 300px;
+        margin: 15px auto;
+        background: rgba(255,255,255,0.7);
+    }
+    body.dark .quiz-btn { background: rgba(0,0,0,0.5); }
+    .quiz-btn:hover { background: var(--primary-color); color: white; }
+
+    #pandaImg {
+        width: 150px;
+        border-radius: 15px;
+        margin-top: 15px;
+        display: none;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    /* Start Screen */
+    #startScreen {
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .btn-container { position: relative; height: 120px; width: 100%; display: flex; justify-content: center; align-items: center; }
+    #noBtn { position: absolute; transition: transform 0.2s ease; }
+
+    /* Sections */
+    .section {
+        display: none;
+        margin-top: 25px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .section.active {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+        animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* The Great Timeline */
+    .timeline-container { text-align: left; position: relative; padding-left: 15px; margin-top: 30px; }
+    .timeline-item { position: relative; padding-bottom: 25px; padding-left: 25px; border-left: 2px solid rgba(255, 75, 110, 0.4); }
+    .timeline-item:last-child { border-left: 2px solid transparent; padding-bottom: 0; }
+    .timeline-item::before {
+        content: ''; position: absolute; left: -8px; top: 0; width: 14px; height: 14px;
+        background: var(--primary-color); border-radius: 50%;
+        box-shadow: 0 0 10px var(--primary-color), 0 0 20px rgba(255, 75, 110, 0.3); transition: transform 0.3s ease;
+    }
+    .timeline-item:hover::before { transform: scale(1.4); }
+    .timeline-item p { margin: 5px 0 0 0; font-size: 15px; }
+    .timeline-date { font-weight: 600; font-size: 14px; color: var(--primary-color); letter-spacing: 0.5px; }
+
+    /* Floating Navbar */
+    .navbar {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        padding: 10px 20px;
+        border-radius: 60px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        border: 1px solid var(--glass-border);
+        z-index: 100;
+        width: 95%;
+        max-width: 600px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    }
+
+    .navbar::-webkit-scrollbar { display: none; }
+    .navbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    .navbar button {
+        margin: 0;
+        flex-shrink: 0;
+        padding: 10px;
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        background: transparent;
+        color: var(--text-color);
+        box-shadow: none;
+        transition: all 0.3s ease;
+    }
+
+    .navbar button.active-nav, .navbar button:hover {
+        background: var(--primary-color);
+        color: white;
+        transform: translateY(-5px) scale(1.1);
+        box-shadow: 0 8px 20px rgba(255, 75, 110, 0.3);
+    }
+
+    /* Enhanced Game Area */
+    #gameArea {
+        height: 350px; background: rgba(255,255,255,0.2); border-radius: 20px;
+        position: relative; overflow: hidden; border: 2px solid var(--glass-border);
+        margin: 20px 0; box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+    }
+    body.dark #gameArea { background: rgba(0,0,0,0.2); }
+    .gameItem { 
+        position: absolute; font-size: 35px; cursor: pointer; user-select: none; 
+        animation: dropDown linear forwards; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+    }
+    .gameItem:active { transform: scale(0.6); }
+    @keyframes dropDown { 0% { transform: translateY(-40px); opacity: 0; } 10% { opacity: 1; } 100% { transform: translateY(360px); opacity: 0; } }
+    .game-stats { display: flex; justify-content: space-around; font-size: 1.2em; font-weight: 600; color: var(--primary-color); margin-bottom: 15px; }
+
+    /* Magical Background Elements */
+    .bg-item { 
+        position: fixed; z-index: -1; opacity: 0.3; 
+        animation: floatSway 9s ease-in-out infinite; 
+        filter: drop-shadow(0 0 10px rgba(255,255,255,0.5));
+    }
+    @keyframes floatSway { 
+        0% { transform: translateY(110vh) translateX(0px) rotate(0deg); opacity: 0; } 
+        20% { opacity: 0.4; }
+        50% { transform: translateY(50vh) translateX(40px) rotate(180deg); } 
+        80% { opacity: 0.4; }
+        100% { transform: translateY(-10vh) translateX(-40px) rotate(360deg); opacity: 0; } 
+    }
+</style>
+</head>
+<body>
+
+<audio id="bgAudioPlayer" loop>
+    <source src="fairytale.mp3" type="audio/mpeg">
+</audio>
+
+<div id="startScreen">
+    <div class="glass-card" style="width: 85%; max-width: 450px; padding: 40px 20px;">
+        <h1 style="font-size: 2.5em; color: var(--primary-color);">Hey Noshin ❤️</h1>
+        <p>Promise you'll smile at least once 😤</p>
+        <div class="btn-container">
+            <button onclick="enterSite()">I Promise</button>
+            <button id="noBtn" onmouseover="moveNo()">No</button>
+        </div>
+    </div>
+</div>
+
+<div id="mainSite" style="display:none">
+<div class="container">
+    <h1 style="color: var(--primary-color); font-size: 2.5em;">This is for you ❤️</h1>
+
+    <div id="letter" class="section glass-card active">
+        <h2>💌 A Letter For You</h2>
+        <p>Suno na noshin, <br><br>
+        Mujhe pata hai aaj kal tumhe kuch bhi acha nahi lagta.<br>
+        Kabhi kabhi dil karta ke bas kuch na karo.<br>
+        But yaad rakhna, tum akeli nahi ho.<br>
+        Main hoon.<br><br>
+        Aur sach bolun jab tum smile karti ho to mujhe bhi ajeeb khushi milti hai.<br>
+        Agar kabhi lage ke hamare beech thoda distance hai, bas mujhe tang kar lena 😤<br><br>
+        Tum meri favourite ho.<br>
+        Aur favourite log replace nahi hote. ✨</p>
+        <img src="nosh1.jpg" alt="Your beautiful smile" class="memory-photo" onerror="this.style.display='none'">
+    </div>
+
+    <div id="shayari" class="section glass-card">
+        <h2>🌹 Shayari</h2>
+        <img src="nosh2.jpg" alt="Beautiful" class="memory-photo" onerror="this.style.display='none'">
+        <br>
+        <p><em>"Teri muskurahat poora din theek kar deti hai,<br>warna duniya mein problems kam nahi hain."</em></p>
+        <hr style="border:0; border-top:1px solid var(--glass-border); margin: 25px 0;">
+        <p><em>"Kabhi kabhi lagta hai ke tum meri kismat ka best part ho."</em></p>
+        <hr style="border:0; border-top:1px solid var(--glass-border); margin: 25px 0;">
+        <p><em>"Agar udaas ho jao to bas yaad rakhna,<br>kisi ki favourite person ho tum."</em></p>
+    </div>
+
+    <div id="timeline" class="section glass-card">
+        <h2>🕰 Our Timeline</h2>
+        <p>Just looking back at us...</p>
+        <div class="timeline-container">
+            <div class="timeline-item"><span class="timeline-date">15 April 2024</span><p>❤️ Pehli baar mile</p></div>
+            <div class="timeline-item"><span class="timeline-date">18 April 2024</span><p>📩 Tumne reel bheji</p></div>
+            <div class="timeline-item"><span class="timeline-date">17 June 2024</span><p>💞 Pehli baar together aaye</p></div>
+            <div class="timeline-item"><span class="timeline-date">2 Weeks Later</span><p>💔 Breakup (immature the)</p></div>
+            <div class="timeline-item"><span class="timeline-date">In Between</span><p>🌙 Beech mein bohat kuch hua</p></div>
+            <div class="timeline-item"><span class="timeline-date">26 April 2025</span><p>❤️ Tumne bola you love me</p></div>
+            <div class="timeline-item"><span class="timeline-date">Today</span><p>✨ Almost 1 year together again! 🎉</p></div>
+        </div>
+        <img src="nosh3.jpg" alt="Where it started" class="memory-photo" style="margin-top: 30px;" onerror="this.style.display='none'">
+    </div>
+
+    <div id="quiz" class="section glass-card">
+        <h2>💘 The 'Us' Quiz</h2>
+        <p>Let's see how much you remember about us!</p>
+        
+        <div id="quizContainer" style="margin-top: 20px;">
+            <h3 id="questionText" style="font-size: 1.2em; margin-bottom: 20px;"></h3>
+            <div id="optionsArea"></div>
+        </div>
+        
+        <div id="quizResult" style="display:none; margin-top: 20px;">
+            <h3 style="color: var(--primary-color);" id="resultText"></h3>
+            
+            <img id="pandaImg" src="https://media.tenor.com/images/123456789/tenor.gif" alt="Crying Panda" onerror="this.src='panda.jpg'; if(this.src==='panda.jpg') this.onerror=null;">
+            
+            <br>
+            <button onclick="nextQuestion()" id="nextBtn" style="display:none;">Next Question</button>
+        </div>
+    </div>
+
+    <div id="countdown" class="section glass-card">
+        <h2>⏳ Next Anniversary</h2>
+        <p>Counting every single second...</p>
+        <h1 id="timer" style="font-size: 3em; color: var(--primary-color); margin-top: 20px;"></h1>
+        <img src="nosh4.jpg" alt="Us" class="memory-photo" onerror="this.style.display='none'">
+    </div>
+
+    <div id="game" class="section glass-card">
+        <h2>🎮 Catch the Flowers & Hearts</h2>
+        <p>Catch as many as you can before time runs out!</p>
+        <div class="game-stats">
+            <div>Score: <span id="score">0</span></div>
+            <div>Time Left: <span id="gameTime">30</span>s</div>
+        </div>
+        <div id="gameArea"></div>
+        <button id="startBtn" onclick="startGame()">Start Game</button>
+    </div>
+
+    <div id="sadmsg" class="section glass-card">
+        <h2>✉️ Open When Sad</h2>
+        <p>Agar kabhi tum udaas ho, ya sab kuch boring lag raha ho...<br><br>
+        Bas ye yaad rakhna ke koi hai jo tumhare liye bohat care karta hai.<br>
+        Aur main yahan hoon, har time.<br><br>
+        Chalo ab thoda smile karo warna main aur cringe messages likh dunga 😤<br>
+        Ab jao thoda game khelo, feel better ho jao!</p>
+        <img src="nosh5.jpg" alt="Always here for you" class="memory-photo" onerror="this.style.display='none'">
+    </div>
+
+</div> 
+</div>
+
+<div class="navbar" id="navBar">
+    <button title="Letter" class="active-nav" onclick="showSection('letter', this)"><i class="bi bi-envelope-paper-heart"></i></button>
+    <button title="Shayari" onclick="showSection('shayari', this)"><i class="bi bi-chat-quote"></i></button>
+    <button title="Story" onclick="showSection('timeline', this)"><i class="bi bi-hourglass-split"></i></button>
+    <button title="Quiz" onclick="showSection('quiz', this)"><i class="bi bi-patch-question-fill"></i></button>
+    <button title="Countdown" onclick="showSection('countdown', this)"><i class="bi bi-calendar-heart"></i></button>
+    <button title="Game" onclick="showSection('game', this)"><i class="bi bi-controller"></i></button>
+    <button title="When Sad" onclick="showSection('sadmsg', this)"><i class="bi bi-emoji-tear"></i></button>
+    <div style="width: 2px; background: var(--glass-border); margin: 0 2px;"></div>
+    <button title="Toggle Music" onclick="toggleMusic()"><i id="musicIcon" class="bi bi-volume-up-fill"></i></button>
+    <button title="Dark Mode" onclick="toggleNight()"><i class="bi bi-moon-stars"></i></button>
+</div>
+
+<script>
+// --- Music ---
+let musicPlaying = false;
+let audioPlayer = document.getElementById("bgAudioPlayer");
+let musicIcon = document.getElementById("musicIcon");
+
+function playMusic() {
+    audioPlayer.play().then(() => { musicPlaying = true; musicIcon.className = "bi bi-volume-up-fill"; }).catch(e => console.log(e));
+}
+function toggleMusic() {
+    if (musicPlaying) { audioPlayer.pause(); musicIcon.className = "bi bi-volume-mute-fill"; musicPlaying = false; } 
+    else { playMusic(); }
+}
+
+// --- Navigation ---
+function enterSite(){
+    document.getElementById("startScreen").style.display="none";
+    document.getElementById("mainSite").style.display="block";
+    playMusic(); 
+}
+
+function moveNo(){
+    let btn = document.getElementById("noBtn");
+    btn.style.transform = `translate(${Math.random()*200-100}px, ${Math.random()*100-50}px)`;
+}
+
+function showSection(id, btnRef){
+    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+    setTimeout(() => { document.getElementById(id).classList.add("active"); }, 50);
+    document.querySelectorAll(".navbar button").forEach(b => b.classList.remove("active-nav"));
+    if(btnRef) btnRef.classList.add("active-nav");
+}
+
+function toggleNight(){ document.body.classList.toggle("dark"); }
+
+// --- Fireworks Effect ---
+function triggerFireworks() {
+    const explosionItems = ["❤️", "💖", "✨", "🎉", "🎆", "🌸"];
+    for (let i = 0; i < 60; i++) {
+        setTimeout(() => {
+            let spark = document.createElement("div");
+            spark.innerHTML = explosionItems[Math.floor(Math.random() * explosionItems.length)];
+            spark.style.position = "fixed";
+            spark.style.left = "50vw";
+            spark.style.top = "50vh";
+            spark.style.fontSize = (Math.random() * 30 + 20) + "px";
+            spark.style.zIndex = "1000";
+            spark.style.transition = "all 1.2s cubic-bezier(0.1, 0.8, 0.3, 1)";
+            document.body.appendChild(spark);
+            
+            // Scatter outwards
+            setTimeout(() => {
+                let x = (Math.random() - 0.5) * window.innerWidth;
+                let y = (Math.random() - 0.5) * window.innerHeight;
+                spark.style.transform = `translate(${x}px, ${y}px) rotate(${Math.random() * 360}deg) scale(${Math.random() + 0.5})`;
+                spark.style.opacity = "0";
+            }, 50);
+            
+            setTimeout(() => spark.remove(), 1250);
+        }, i * 30);
+    }
+}
+
+// --- Quiz Logic ---
+const quizData = [
+    { q: "Hamari pehli mulakat kab hui thi?", options: ["15 April 2024", "17 June 2024"], answer: 0, success: "Yay! The day it all started ❤️" },
+    { q: "Sabse pehli reel kisne bheji thi?", options: ["Maine", "Tumne"], answer: 1, success: "Haha yes, tum hi ne shuruat ki thi 😌" },
+    { q: "Tumhare favourite flowers kaunse hain?", options: ["Pink Roses & Lilies", "Sunflowers"], answer: 0, success: "Obviously! And you deserve a bouquet of them everyday 🌸🪷" },
+    { q: "Jab tumne pehli baar 'I love you' bola tha, wo konsa din tha?", options: ["26 April 2025", "17 June 2024", "Pata nahi"], answer: 0, success: "Sahi jawab! Mere liye sabse special din ✨" },
+    { q: "Kitni baar tumne mujhe block kiya hai? 🙄", options: ["1", "None", "A lot more than I lost count"], answer: 2, success: "pata hai ke bohat baar kiya hai but koi baat nhi tumhara bhi mere bina dil nhi lagta hehe" },
+    { q: "Will u be mine for eternity and be there with me forever?", options: ["Yes ❤️", "No 😢"], answer: 0, success: "I love you too! ✨💖🎉", isFinal: true }
+];
+let currentQ = 0;
+
+function loadQuiz() {
+    if(currentQ >= quizData.length) {
+        document.getElementById("quizContainer").innerHTML = "<h3>You passed the test! 🎉</h3><p>You really do remember everything.</p>";
+        document.getElementById("quizResult").style.display = "none";
+        return;
+    }
+    document.getElementById("questionText").innerText = quizData[currentQ].q;
+    let optionsHtml = "";
+    quizData[currentQ].options.forEach((opt, index) => {
+        optionsHtml += `<button class="quiz-btn" onclick="checkAnswer(${index})">${opt}</button>`;
+    });
+    document.getElementById("optionsArea").innerHTML = optionsHtml;
+    document.getElementById("quizResult").style.display = "none";
+    document.getElementById("nextBtn").style.display = "none";
+    document.getElementById("pandaImg").style.display = "none";
+}
+
+function checkAnswer(selectedIndex) {
+    let resultDiv = document.getElementById("quizResult");
+    let resultText = document.getElementById("resultText");
+    let nextBtn = document.getElementById("nextBtn");
+    let pandaImg = document.getElementById("pandaImg");
+    
+    resultDiv.style.display = "block";
+    
+    if(selectedIndex === quizData[currentQ].answer) {
+        resultText.innerText = quizData[currentQ].success;
+        pandaImg.style.display = "none";
+        
+        if (quizData[currentQ].isFinal) {
+            nextBtn.style.display = "none";
+            triggerFireworks(); // 🎇 BAM! Fireworks!
+        } else {
+            nextBtn.style.display = "inline-block";
+        }
+    } else {
+        if (quizData[currentQ].isFinal) {
+            resultText.innerText = "Phirse try karo 🥺";
+            // Show crying panda fallback from Tenor, or local file if you save one
+            pandaImg.src = "https://media1.tenor.com/m/YnZ1752E-h0AAAAd/panda-sad.gif";
+            pandaImg.style.display = "inline-block";
+        } else {
+            resultText.innerText = "Nahi! Socho dobara 😤";
+            pandaImg.style.display = "none";
+        }
+        nextBtn.style.display = "none";
+    }
+}
+
+function nextQuestion() {
+    currentQ++;
+    loadQuiz();
+}
+// Initialize Quiz
+loadQuiz();
+
+// --- Countdown ---
+function getNextAnniversary() {
+    let now = new Date();
+    let year = now.getFullYear();
+    let anniversary = new Date(`April 26, ${year} 00:00:00`);
+    if(anniversary < now) anniversary = new Date(`April 26, ${year+1} 00:00:00`);
+    return anniversary;
+}
+setInterval(() => {
+    let diff = getNextAnniversary().getTime() - new Date().getTime();
+    document.getElementById("timer").innerHTML = `${Math.floor(diff/(1000*60*60*24))}d ${Math.floor((diff%(1000*60*60*24))/(1000*60*60))}h ${Math.floor((diff%(1000*60*60))/(1000*60))}m ${Math.floor((diff%(1000*60))/1000)}s`;
+}, 1000);
+
+// --- Game ---
+let score = 0, timeLeft = 30, gameInterval, timerInterval;
+const gameItems = ["❤️", "💖", "🌸", "🪷", "🌹", "✨"]; 
+
+function startGame(){
+    document.getElementById("startBtn").style.display = "none"; 
+    score = 0; timeLeft = 30;
+    document.getElementById("score").innerText = score;
+    document.getElementById("gameTime").innerText = timeLeft;
+    let game = document.getElementById("gameArea");
+    game.innerHTML = ''; 
+    
+    timerInterval = setInterval(() => {
+        timeLeft--; document.getElementById("gameTime").innerText = timeLeft;
+        if(timeLeft <= 0) endGame();
+    }, 1000);
+
+    gameInterval = setInterval(() => {
+        let item = document.createElement("div");
+        item.innerHTML = gameItems[Math.floor(Math.random() * gameItems.length)];
+        item.classList.add("gameItem");
+        item.style.left = Math.random() * 85 + "%";
+        item.style.animationDuration = (Math.random() * 2 + 2) + "s";
+        game.appendChild(item);
+        item.addEventListener("animationend", () => item.remove());
+        item.onmousedown = item.ontouchstart = function(e){
+            e.preventDefault(); score++; document.getElementById("score").innerText = score;
+            item.style.transform = "scale(1.5)"; item.style.opacity = "0"; setTimeout(() => item.remove(), 100);
+        }
+    }, 600);
+}
+
+function endGame() {
+    clearInterval(gameInterval); clearInterval(timerInterval);
+    document.getElementById("gameArea").innerHTML = `<h3 style="margin-top: 150px; color: var(--primary-color);">Time's Up!</h3><p>You caught ${score} items!</p>`;
+    let btn = document.getElementById("startBtn"); btn.innerText = "Play Again"; btn.style.display = "inline-block";
+}
+
+// --- Background Floating Items ---
+function createBgItem(){
+    let item = document.createElement("div");
+    item.classList.add("bg-item");
+    item.innerHTML = gameItems[Math.floor(Math.random() * gameItems.length)];
+    item.style.left = Math.random() * 100 + "vw";
+    item.style.fontSize = Math.random() * 25 + 15 + "px";
+    document.body.appendChild(item);
+    setTimeout(() => item.remove(), 9000);
+}
+setInterval(createBgItem, 800);
+</script>
+
+</body>
+</html>
